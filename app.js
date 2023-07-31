@@ -8,7 +8,13 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const expressSession = require("express-session");
 
-const config = require("./config");
+//Config Imports
+try{
+	var config = require("./config");
+} catch (e){
+	console.log("Could not import config");
+	console.log(e);
+}
 
 const Movie = require("./models/movie");
 const Comment = require("./models/comment");
@@ -20,7 +26,13 @@ const mainRoutes = require("./routes/main");
 const authRoutes = require("./routes/auth");
 
 
-mongoose.connect(config.db.connection, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
+try{
+	mongoose.connect(config.db.connection, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});	
+} catch (e){
+	console.log("Could not connect config, this probably means you are not working locally");
+	mongoose.connect(process.env.DB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+}
+
 
 mongoose.Promise = global.Promise;
 
@@ -30,7 +42,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 app.use(expressSession({
-	secret: "ashdhai0hsidjasasdpoajoj123jaish0hasd",
+	secret: process.env.ES_SECRET || config.expressSession.secret,
 	resave: false,
 	saveUninitialized: false
 }));
@@ -63,7 +75,7 @@ app.use("/movies/:id/comments", commentRoutes);
 app.use("/movies", movieRoutes);
 
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
 	console.log("Running on port 3000");
 });
 
