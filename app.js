@@ -37,7 +37,6 @@ try{
 
 mongoose.Promise = global.Promise;
 
-console.log(config.db.username);
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
