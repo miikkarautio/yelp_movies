@@ -28,12 +28,14 @@
 				</tr>
 			  </tbody>
 			</table>
+			<% if (user && user.username === movie.owner.username) { %>
 			<a href="/movies/<%=movie._id%>/edit">
 				<button class ="btn btn-outline-info btn-lg btn-block mb-2">Edit</button>
 			</a>
 			<form action="/movies/<%=movie._id %>?_method=DELETE" method="POST">
 				<button type="submit" class="btn btn-outline-danger btn-lg btn-block">Delete</button>
 			</form>
+			<% } %>
 		</div>
 	</div>
 	<div class="row show_comment-header mt-3">
@@ -49,6 +51,7 @@
 				<%= comment.user.username %>
 			</div>
 			<div class="col-2 border-right my-auto d-flex flex-wrap justify-content-center">
+				<% if(user && user.username === comment.user.username) { %>
 				<a class="btn btn-sm btn-success w-75 p-0 my-1" href="/movies/<%= movie._id%>/comments/<%=comment._id%>/edit">
 					Edit
 				</a>
@@ -57,6 +60,7 @@
 						Delete
 					</button>
 				</form>
+				<% } %>
 			</div>
 			<div class="col-8 my-auto">
 				<%=	comment.text %>
