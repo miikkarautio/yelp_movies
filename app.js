@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const expressSession = require("express-session");
+const flash = require("connect-flash");
 
 //Config Imports
 let config;
@@ -49,6 +50,8 @@ app.use(expressSession({
 
 app.use(bodyParser.urlencoded({extended: true}));
 
+// Connect Flash
+app.use(flash());
 
 app.use(methodOverride("_method"));
 
